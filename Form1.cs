@@ -1,4 +1,4 @@
-﻿using MySqlX.XDevAPI.Common;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +19,7 @@ namespace ClientSystem
             ReadClient();
         }
 
+       
         public void ReadClient() { 
             DataTable dt = new DataTable();
             dt.Columns.Add("ID");
@@ -63,6 +64,41 @@ namespace ClientSystem
             var data = new CRUD();
             data.DeleteClient(clientId);
             ReadClient();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try {
+                if (dataGridView1.SelectedRows.Count == 0) {
+                    MessageBox.Show("Válassza ki a sort a törléshez");
+                    return;
+                }
+
+                var val = this.dataGridView1.SelectedRows[0].Cells[0].Value?.ToString();
+                if (string.IsNullOrEmpty(val)) return;
+
+                int clientId = int.Parse(val);
+
+                var data = new CRUD();
+                var client = data.GetClient(clientId);
+
+                if (clientId == 0) {
+                    MessageBox.Show("Nem található az ügyfél");
+                    return;
+                }
+
+                ClientEdit form = new ClientEdit();
+                form.FelhasznaloModosita(client);
+                if (form.ShowDialog() == DialogResult.OK) { 
+                    ReadClient();
+                }
+                
+
+            } 
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Hiba"+ex.Message);
+            }
         }
     }
 }
