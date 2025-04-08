@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +15,27 @@ namespace ClientSystem
         public ClientEdit()
         {
             InitializeComponent();
+            this.DialogResult = DialogResult.OK;
+        }
+
+        public int clientId = 0;
+        public void FelhasznaloModosita(Client client)
+        {
+
+           
+
+            this.Text = "Módosítás";
+            this.textBox1.Text = client.veznev;
+            this.textBox2.Text = client.kernev;
+            this.textBox3.Text = client.email;
+            this.textBox4.Text = client.telszam;           
+            this.textBox5.Text = Convert.ToString(client.szuldatum);
+
+            this.clientId = client.id;
+            var data = new CRUD();
+            data.UpdateClient(client);
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
