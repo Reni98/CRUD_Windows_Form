@@ -1,6 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +82,8 @@ namespace ClientSystem
                         cmd.Parameters.AddWithValue("@id",id);
 
                         using (MySqlDataReader reader = cmd.ExecuteReader()) { 
+
+                            reader.Read();
                             Client client = new Client();
 
                             client.id = reader.GetInt32("id");
@@ -90,7 +93,8 @@ namespace ClientSystem
                             client.telszam = reader.GetString("telszam");
                             client.szuldatum = reader.GetDateTime("szuldatum");
                             return client;                        
-                        }                   
+                        } 
+                       
                     }               
                 }           
             } 
